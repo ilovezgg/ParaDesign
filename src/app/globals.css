@@ -1,26 +1,93 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Colors */
+  --color-bg-primary: #141414;
+  --color-bg-secondary: #1a1a1a;
+  --color-bg-tertiary: #202020;
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-text-primary: #f5f5f3;
+  --color-text-secondary: #8a8a8a;
+  --color-text-muted: #5c5c5c;
+  --color-accent: #c6ff4f;
+  --color-accent-ink: #141414;
+
+  /* Fonts */
+  --font-display: var(--font-unbounded), "Arial Narrow", sans-serif;
+  --font-body: var(--font-manrope), Arial, sans-serif;
+
+  /* Type scale */
+  --text-display: clamp(2.5rem, 6vw + 1rem, 6rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.02em;
+  --text-h2: clamp(1.75rem, 3vw + 1rem, 3.5rem);
+  --text-h2--line-height: 1;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: clamp(1.25rem, 1vw + 1rem, 1.75rem);
+  --text-h3--line-height: 1.1;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.5;
+
+  /* Radius */
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+
+  /* Section rhythm */
+  --spacing-section-y: 6rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (min-width: 768px) {
+  @theme {
+    --spacing-section-y: 8rem;
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
