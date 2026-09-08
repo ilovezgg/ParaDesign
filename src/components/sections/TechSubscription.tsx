@@ -28,28 +28,28 @@ function PhoneMockup() {
 export function TechSubscription() {
   return (
     <section className="py-section-y">
-      <Container className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-16">
-        <Reveal>
+      <Container className="grid grid-cols-1 items-center gap-12 xl:grid-cols-2 xl:gap-16">
+        <Reveal className="min-w-0">
           <PhoneMockup />
         </Reveal>
 
-        <Reveal delay={0.1}>
+        <Reveal delay={0.1} className="min-w-0">
           <span className="font-display text-2xl uppercase text-accent md:text-3xl">
             {techSubscription.price}
           </span>
-          <h2 className="mt-4 font-display text-h2 uppercase leading-none text-text-primary">
+          <h2 className="mt-4 break-words font-display text-h2 uppercase leading-none text-text-primary">
             {techSubscription.title}
           </h2>
-          <p className="mt-5 max-w-md text-body text-text-secondary">{techSubscription.text}</p>
+          <p className="mt-5 max-w-md break-words text-body text-text-secondary">{techSubscription.text}</p>
           <ul className="mt-8 flex flex-col gap-4">
             {techSubscription.points.map((point) => (
-              <li key={point} className="flex items-start gap-3 text-body-sm text-text-secondary">
+              <li key={point} className="flex min-w-0 items-start gap-3 text-body-sm text-text-secondary">
                 <IconCheck className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                {point}
+                <span className="break-words">{point}</span>
               </li>
             ))}
           </ul>
-          <Button href={techSubscription.ctaHref} variant="solid" className="mt-10">
+          <Button href={techSubscription.ctaHref} variant="solid" className="mt-10 max-w-full">
             {techSubscription.cta}
           </Button>
         </Reveal>

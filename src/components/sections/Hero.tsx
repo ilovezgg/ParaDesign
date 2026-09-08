@@ -9,21 +9,19 @@ export function Hero() {
     <section id="top" className="relative pt-16 pb-24 md:pt-24 md:pb-32">
       <Container>
         <Reveal>
-          <h1 className="font-display text-display uppercase text-text-primary">
+          <h1 className="font-display text-[clamp(2.5rem,4.5vw+1rem,5.7rem)] uppercase leading-[1.15] tracking-[-0.02em] text-text-primary">
             {hero.titleLines.map((line, i) => (
               <span key={i} className="block">
                 {line.map((seg, j) =>
                   seg.chip ? (
-                    <span key={j}>
-                      <span className="md:hidden"> </span>
-                      <Image
-                        src={seg.chip}
-                        alt=""
-                        width={160}
-                        height={100}
-                        className="mx-[0.3em] hidden h-[0.62em] w-[2.6em] rounded-full object-cover align-middle md:inline-block"
-                      />
-                    </span>
+                    <Image
+                      key={j}
+                      src={seg.chip}
+                      alt=""
+                      width={160}
+                      height={100}
+                      className="mx-[0.3em] inline-block h-[0.62em] w-[1.6em] rounded-full object-cover align-middle"
+                    />
                   ) : (
                     <span key={j}>{seg.text}</span>
                   )

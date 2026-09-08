@@ -66,7 +66,7 @@ export function FinalCta() {
                 {...(btn.href.startsWith("http")
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}
-                className="inline-flex items-center gap-2 rounded-full border border-border-strong px-5 py-3 text-body-sm text-text-primary transition-colors duration-300 hover:bg-text-primary hover:text-bg-primary"
+                className="inline-flex items-center gap-2 rounded-full border border-border-strong px-5 py-3 text-body-sm font-semibold uppercase tracking-tight text-text-primary transition-colors duration-300 hover:bg-text-primary hover:text-bg-primary"
               >
                 <Icon className="h-4 w-4" />
                 {btn.label}
@@ -128,7 +128,7 @@ export function FinalCta() {
             <button
               type="submit"
               disabled={status === "loading"}
-              className="inline-flex w-fit items-center gap-3 rounded-full border border-accent bg-accent px-6 py-3 text-body-sm font-medium uppercase tracking-tight text-accent-ink transition-colors duration-300 hover:bg-transparent hover:text-accent disabled:opacity-60"
+              className="inline-flex w-fit items-center gap-3 rounded-full border border-accent bg-accent px-6 py-3 text-body-sm font-semibold uppercase tracking-tight text-accent-ink transition-colors duration-300 hover:bg-transparent hover:text-accent disabled:opacity-60"
             >
               {status === "loading" ? "Отправка..." : "Отправить заявку"}
             </button>

@@ -27,7 +27,7 @@ export function Button({ href, children, variant = "outline", className = "", ..
   const handleMouseLeave = () => setOffset({ x: 0, y: 0 });
 
   const base =
-    "group relative inline-flex items-center gap-3 rounded-full border px-6 py-3 text-body-sm font-medium uppercase tracking-tight transition-colors duration-300";
+    "group relative inline-flex items-center gap-3 rounded-full border px-6 py-3 text-body-sm font-semibold uppercase tracking-tight transition-colors duration-300";
   const styles =
     variant === "solid"
       ? "border-accent bg-accent text-accent-ink hover:bg-transparent hover:text-accent"
@@ -50,7 +50,7 @@ export function Button({ href, children, variant = "outline", className = "", ..
         {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         {...rest}
       >
-        <span>{children}</span>
+        <span className="break-words">{children}</span>
         <span
           className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
             variant === "solid"

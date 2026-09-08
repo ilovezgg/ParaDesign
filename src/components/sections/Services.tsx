@@ -32,7 +32,7 @@ export function Services() {
               </div>
               <div className="flex flex-1 flex-col gap-4 p-6">
                 <div>
-                  <h3 className="font-display text-h3 uppercase text-text-primary">
+                  <h3 className="font-display text-body uppercase text-text-primary">
                     {service.title}
                   </h3>
                   <p className="mt-1 text-body-sm text-text-secondary">{service.description}</p>

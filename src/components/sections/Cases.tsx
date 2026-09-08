@@ -12,22 +12,32 @@ export function Cases() {
           return (
             <div
               key={item.title}
-              className={`flex flex-col gap-8 md:flex-row md:items-center md:gap-16 ${
-                reversed ? "md:flex-row-reverse" : ""
+              className={`flex flex-col gap-8 xl:flex-row xl:items-stretch xl:gap-16 ${
+                reversed ? "xl:flex-row-reverse" : ""
               }`}
             >
-              <Reveal className="flex-1">
-                <div className="flex flex-wrap gap-2">
-                  {item.tags.map((tag) => (
-                    <span key={tag} className="text-body-sm text-accent">
-                      {tag}
-                    </span>
-                  ))}
+              <Reveal className="flex flex-1 flex-col xl:justify-between">
+                <div>
+                  <div className="flex flex-wrap gap-2">
+                    {item.tags.map((tag) => (
+                      <span key={tag} className="text-body-sm text-accent">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  {item.linkHref ? (
+                    <a href={item.linkHref} target="_blank" rel="noopener noreferrer">
+                      <h3 className="mt-4 font-display text-h3 uppercase leading-tight text-text-primary transition-colors duration-200 hover:text-accent">
+                        {item.title}
+                      </h3>
+                    </a>
+                  ) : (
+                    <h3 className="mt-4 font-display text-h3 uppercase leading-tight text-text-primary">
+                      {item.title}
+                    </h3>
+                  )}
+                  <p className="mt-4 text-body text-text-secondary">{item.text}</p>
                 </div>
-                <h3 className="mt-4 font-display text-h3 uppercase leading-tight text-text-primary">
-                  {item.title}
-                </h3>
-                <p className="mt-4 text-body text-text-secondary">{item.text}</p>
                 {item.link ? (
                   <a
                     href={item.linkHref}
@@ -41,16 +51,34 @@ export function Cases() {
               </Reveal>
 
               <Reveal delay={0.1} className="flex-1">
-                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    loading="lazy"
-                    className="object-cover"
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                  />
-                </div>
+                {item.linkHref ? (
+                  <a
+                    href={item.linkHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative block aspect-[4/3] w-full overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary xl:aspect-auto xl:h-full"
+                  >
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      loading="lazy"
+                      className="object-cover"
+                      sizes="(min-width: 1280px) 50vw, 100vw"
+                    />
+                  </a>
+                ) : (
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary xl:aspect-auto xl:h-full">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      loading="lazy"
+                      className="object-cover"
+                      sizes="(min-width: 1280px) 50vw, 100vw"
+                    />
+                  </div>
+                )}
               </Reveal>
             </div>
           );
