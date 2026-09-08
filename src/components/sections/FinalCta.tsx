@@ -1,10 +1,10 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { finalCta } from "@/content";
+import { finalCta, hero, siteConfig } from "@/content";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
-import { IconDoc, IconTelegram, IconWhatsapp, IconPhone, IconVk } from "@/components/ui/icons";
+import { IconDoc, IconTelegram, IconWhatsapp, IconPhone, IconVk, IconMail } from "@/components/ui/icons";
 import { submitContactForm } from "@/lib/formAction";
 
 const iconMap = {
@@ -48,35 +48,36 @@ export function FinalCta() {
 
   return (
     <section id="contacts" className="py-section-y">
-      <Container>
-        <Reveal>
-          <h2 className="font-display text-display uppercase leading-none text-text-primary">
-            {finalCta.title}
-          </h2>
-          <p className="mt-4 text-body text-text-secondary">{finalCta.subtitle}</p>
-        </Reveal>
+      <Container className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_380px] lg:items-start">
+        <div className="min-w-0">
+          <Reveal>
+            <h2 className="font-display text-display uppercase leading-none text-text-primary">
+              {finalCta.title}
+            </h2>
+            <p className="mt-4 text-body text-text-secondary">{finalCta.subtitle}</p>
+          </Reveal>
 
-        <Reveal delay={0.1} className="mt-10 flex flex-wrap gap-3">
-          {finalCta.contactButtons.map((btn) => {
-            const Icon = iconMap[btn.icon];
-            return (
-              <a
-                key={btn.label}
-                href={btn.href}
-                {...(btn.href.startsWith("http")
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-                className="inline-flex items-center gap-2 rounded-full border border-border-strong px-5 py-3 text-body-sm font-semibold uppercase tracking-tight text-text-primary transition-colors duration-300 hover:bg-text-primary hover:text-bg-primary"
-              >
-                <Icon className="h-4 w-4" />
-                {btn.label}
-              </a>
-            );
-          })}
-        </Reveal>
+          <Reveal delay={0.1} className="mt-10 flex flex-wrap gap-3">
+            {finalCta.contactButtons.map((btn) => {
+              const Icon = iconMap[btn.icon];
+              return (
+                <a
+                  key={btn.label}
+                  href={btn.href}
+                  {...(btn.href.startsWith("http")
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className="inline-flex items-center gap-2 rounded-full border border-border-strong px-5 py-3 text-body-sm font-semibold uppercase tracking-tight text-text-primary transition-colors duration-300 hover:bg-text-primary hover:text-bg-primary"
+                >
+                  <Icon className="h-4 w-4" />
+                  {btn.label}
+                </a>
+              );
+            })}
+          </Reveal>
 
-        <Reveal delay={0.2} id="contact-form" className="mt-16 max-w-xl scroll-mt-24">
-          <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+          <Reveal delay={0.2} id="contact-form" className="mt-16 max-w-xl scroll-mt-24">
+            <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
             <div>
               <input
                 name="name"
@@ -143,7 +144,41 @@ export function FinalCta() {
                 Что-то пошло не так. Попробуйте ещё раз или напишите нам напрямую.
               </p>
             ) : null}
-          </form>
+            </form>
+          </Reveal>
+        </div>
+
+        <Reveal delay={0.15} className="min-w-0 rounded-3xl border border-border-subtle bg-bg-secondary p-8">
+          <span className="text-body-sm uppercase tracking-tight text-text-secondary">Почему нам</span>
+          <ul className="mt-5 flex flex-col gap-4">
+            {hero.metrics.map((m) => (
+              <li key={m.label} className="flex items-baseline gap-3 border-b border-border-subtle pb-4 last:border-0 last:pb-0">
+                <span className="font-display text-lg uppercase text-accent">{m.value}</span>
+                <span className="text-body-sm text-text-muted">{m.label}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-8 flex flex-col gap-3 border-t border-border-subtle pt-8">
+            <a
+              href={siteConfig.phoneHref}
+              className="flex items-center gap-3 text-body-sm text-text-primary transition-colors duration-300 hover:text-accent"
+            >
+              <IconPhone className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
+              {siteConfig.phone}
+            </a>
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="flex items-center gap-3 text-body-sm text-text-primary transition-colors duration-300 hover:text-accent"
+            >
+              <IconMail className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
+              {siteConfig.email}
+            </a>
+          </div>
+
+          <p className="mt-8 border-t border-border-subtle pt-8 text-body-sm text-text-secondary">
+            Отвечаем в течение 30 минут в рабочее время — обсудим задачу голосом или в мессенджере, без давления на покупку.
+          </p>
         </Reveal>
       </Container>
     </section>

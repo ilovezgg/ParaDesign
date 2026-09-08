@@ -38,8 +38,9 @@ export function TechSubscription() {
             {techSubscription.price}
           </span>
           {/* text-h2 wraps "Индивидуальная техническая подписка" onto 4 lines here — one-off
-              smaller clamp keeps it to 3 for this specific heading only */}
-          <h2 className="mt-4 break-words font-display text-[clamp(1.5rem,2.6vw+1rem,2.75rem)] uppercase leading-[1.1] text-text-primary">
+              smaller clamp keeps it to 3 for this specific heading only, and keeps
+              "Индивидуальная" itself from breaking mid-word */}
+          <h2 className="mt-4 break-words font-display text-[clamp(1.25rem,2.1vw+0.85rem,2.35rem)] uppercase leading-[1.15] text-text-primary">
             {techSubscription.title}
           </h2>
           <p className="mt-5 max-w-md break-words text-body text-text-secondary">{techSubscription.text}</p>

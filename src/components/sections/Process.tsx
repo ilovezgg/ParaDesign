@@ -11,7 +11,38 @@ export function Process() {
           <SectionTitle eyebrow="Как мы работаем">{process.title}</SectionTitle>
         </Reveal>
 
-        <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-20 lg:grid-cols-4">
+        {/* Mobile: vertical list with connecting line (old design, kept for phones only) */}
+        <div className="mt-16 flex flex-col gap-8 md:hidden">
+          {process.steps.map((step, i) => (
+            <Reveal key={step.n} delay={i * 0.04} className="flex gap-4">
+              <div className="flex flex-col items-center">
+                <span
+                  className={`block h-3 w-3 shrink-0 rounded-full border bg-bg-primary ${
+                    step.accent
+                      ? "border-accent shadow-[0_0_8px_2px_rgba(198,255,79,0.5)]"
+                      : "border-text-secondary"
+                  }`}
+                />
+                {i < process.steps.length - 1 ? (
+                  <span className="mt-1 w-px flex-1 bg-border-subtle" />
+                ) : null}
+              </div>
+              <div className="pb-2">
+                <span className="text-body-sm text-text-muted">{step.n}</span>
+                <p
+                  className={`mt-1 w-full font-display text-lg uppercase leading-tight break-words ${
+                    step.accent ? "text-accent" : "text-text-primary"
+                  }`}
+                >
+                  {step.title}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* Tablet + desktop: card grid */}
+        <div className="mt-16 hidden gap-4 md:mt-20 md:grid md:grid-cols-2 lg:grid-cols-4">
           {process.steps.map((step, i) => (
             <Reveal
               key={step.n}
