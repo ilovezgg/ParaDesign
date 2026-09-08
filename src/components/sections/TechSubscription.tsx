@@ -37,7 +37,9 @@ export function TechSubscription() {
           <span className="font-display text-2xl uppercase text-accent md:text-3xl">
             {techSubscription.price}
           </span>
-          <h2 className="mt-4 break-words font-display text-h2 uppercase leading-none text-text-primary">
+          {/* text-h2 wraps "Индивидуальная техническая подписка" onto 4 lines here — one-off
+              smaller clamp keeps it to 3 for this specific heading only */}
+          <h2 className="mt-4 break-words font-display text-[clamp(1.5rem,2.6vw+1rem,2.75rem)] uppercase leading-[1.1] text-text-primary">
             {techSubscription.title}
           </h2>
           <p className="mt-5 max-w-md break-words text-body text-text-secondary">{techSubscription.text}</p>

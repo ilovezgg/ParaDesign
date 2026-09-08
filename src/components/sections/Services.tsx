@@ -3,7 +3,7 @@ import { services } from "@/content";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { Reveal } from "@/components/ui/Reveal";
-import { Button } from "@/components/ui/Button";
+import { ServiceCtaButton } from "@/components/ui/ServiceCtaButton";
 
 export function Services() {
   return (
@@ -42,9 +42,9 @@ export function Services() {
                   <span aria-hidden="true">•</span>
                   <span>{service.duration}</span>
                 </div>
-                <Button href="#contacts" className="mt-auto w-full justify-between">
+                <ServiceCtaButton index={i} className="mt-auto w-full justify-between">
                   {service.cta}
-                </Button>
+                </ServiceCtaButton>
               </div>
             </Reveal>
           ))}

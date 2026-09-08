@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { hero } from "@/content";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
+import { ConsultationCtaButton } from "@/components/ui/ConsultationCtaButton";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function Hero() {
@@ -33,9 +33,7 @@ export function Hero() {
 
         <Reveal delay={0.1} className="mt-8 flex flex-col items-start gap-8 md:mt-12 md:flex-row md:items-end md:justify-between">
           <p className="max-w-sm text-body text-text-secondary">{hero.subtitle}</p>
-          <Button href={hero.ctaHref} variant="solid">
-            {hero.cta}
-          </Button>
+          <ConsultationCtaButton variant="solid">{hero.cta}</ConsultationCtaButton>
         </Reveal>
 
         <Reveal delay={0.2} className="mt-16 flex flex-wrap gap-x-10 gap-y-4 border-t border-border-subtle pt-8 md:mt-20">

@@ -56,7 +56,8 @@ export function Cases() {
                     href={item.linkHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative block aspect-[4/3] w-full overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary xl:aspect-auto xl:h-full"
+                    // +20px компенсирует визуальную обрезку object-cover на реальных фото кейсов
+                    className="relative block aspect-[4/3] w-[calc(100%+20px)] -mx-[10px] overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary xl:aspect-auto xl:h-full"
                   >
                     <Image
                       src={item.image}
@@ -68,7 +69,7 @@ export function Cases() {
                     />
                   </a>
                 ) : (
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary xl:aspect-auto xl:h-full">
+                  <div className="relative aspect-[4/3] w-[calc(100%+20px)] -mx-[10px] overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary xl:aspect-auto xl:h-full">
                     <Image
                       src={item.image}
                       alt={item.title}

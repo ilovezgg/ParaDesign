@@ -11,59 +11,33 @@ export function Process() {
           <SectionTitle eyebrow="Как мы работаем">{process.title}</SectionTitle>
         </Reveal>
 
-        <div className="mt-16 md:mt-20">
-          {/* Tablet (2 cols) + Desktop (4 cols, 2 rows) */}
-          <div className="hidden grid-cols-2 gap-x-8 gap-y-10 md:grid lg:grid-cols-4">
-            {process.steps.map((step, i) => (
-              <Reveal key={step.n} delay={i * 0.04} className="flex flex-col items-start">
-                <span
-                  className={`block h-3 w-3 shrink-0 rounded-full border bg-bg-primary ${
-                    step.accent
-                      ? "border-accent shadow-[0_0_8px_2px_rgba(198,255,79,0.5)]"
-                      : "border-text-secondary"
-                  }`}
-                />
-                <span className="mt-4 text-[11px] text-text-muted">{step.n}</span>
-                <p
-                  className={`mt-2 w-full text-[14px] uppercase leading-[1.35] break-words ${
-                    step.accent ? "text-accent" : "text-text-primary"
-                  }`}
-                >
-                  {step.title}
-                </p>
-              </Reveal>
-            ))}
-          </div>
-
-          {/* Mobile: vertical list with connecting line */}
-          <div className="flex flex-col gap-8 md:hidden">
-            {process.steps.map((step, i) => (
-              <Reveal key={step.n} delay={i * 0.04} className="flex gap-4">
-                <div className="flex flex-col items-center">
-                  <span
-                    className={`block h-3 w-3 shrink-0 rounded-full border bg-bg-primary ${
-                      step.accent
-                        ? "border-accent shadow-[0_0_8px_2px_rgba(198,255,79,0.5)]"
-                        : "border-text-secondary"
-                    }`}
-                  />
-                  {i < process.steps.length - 1 ? (
-                    <span className="mt-1 w-px flex-1 bg-border-subtle" />
-                  ) : null}
-                </div>
-                <div className="pb-2">
-                  <span className="text-body-sm text-text-muted">{step.n}</span>
-                  <p
-                    className={`mt-1 w-full font-display text-lg uppercase leading-tight break-words ${
-                      step.accent ? "text-accent" : "text-text-primary"
-                    }`}
-                  >
-                    {step.title}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+        <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-20 lg:grid-cols-4">
+          {process.steps.map((step, i) => (
+            <Reveal
+              key={step.n}
+              delay={i * 0.05}
+              className={`group flex min-w-0 flex-col justify-between gap-8 rounded-2xl border p-6 transition-colors duration-300 ${
+                step.accent
+                  ? "border-accent bg-accent"
+                  : "border-border-subtle bg-bg-secondary hover:border-accent/60"
+              }`}
+            >
+              <span
+                className={`font-display text-4xl uppercase leading-none md:text-5xl ${
+                  step.accent ? "text-accent-ink" : "text-accent"
+                }`}
+              >
+                {step.n}
+              </span>
+              <p
+                className={`w-full text-[14px] uppercase leading-[1.35] break-words ${
+                  step.accent ? "text-accent-ink" : "text-text-primary"
+                }`}
+              >
+                {step.title}
+              </p>
+            </Reveal>
+          ))}
         </div>
       </Container>
     </section>

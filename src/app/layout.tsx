@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Unbounded, Manrope } from "next/font/google";
 import "./globals.css";
 import { seo, siteConfig } from "@/content";
+import { ConsultationModal } from "@/components/ui/ConsultationModal";
+import { ServiceModal } from "@/components/ui/ServiceModal";
 
 const unbounded = Unbounded({
   variable: "--font-unbounded",
@@ -81,6 +83,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         {children}
+        <ConsultationModal />
+        <ServiceModal />
       </body>
     </html>
   );
