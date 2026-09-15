@@ -1,9 +1,10 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { finalCta, hero, siteConfig } from "@/content";
+import { finalCta, hero, siteConfig, consent } from "@/content";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { Select } from "@/components/ui/Select";
 import { IconDoc, IconTelegram, IconWhatsapp, IconPhone, IconVk, IconMail } from "@/components/ui/icons";
 import { submitContactForm } from "@/lib/formAction";
 
@@ -20,18 +21,20 @@ type Status = "idle" | "loading" | "success" | "error";
 export function FinalCta() {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [agreed, setAgreed] = useState(false);
+  const [messenger, setMessenger] = useState("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const name = String(form.get("name") || "").trim();
     const phone = String(form.get("phone") || "").trim();
-    const messenger = String(form.get("messenger") || "");
     const comment = String(form.get("comment") || "").trim();
 
     const nextErrors: Record<string, string> = {};
     if (name.length < 2) nextErrors.name = "Введите имя";
     if (!/^[+\d][\d\s()-]{6,}$/.test(phone)) nextErrors.phone = "Введите корректный телефон";
+    if (!agreed) nextErrors.agreed = consent.error;
 
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
@@ -40,7 +43,11 @@ export function FinalCta() {
     try {
       const result = await submitContactForm({ name, phone, messenger, comment });
       setStatus(result.ok ? "success" : "error");
-      if (result.ok) e.currentTarget.reset();
+      if (result.ok) {
+        e.currentTarget.reset();
+        setAgreed(false);
+        setMessenger("");
+      }
     } catch {
       setStatus("error");
     }
@@ -102,21 +109,13 @@ export function FinalCta() {
               {errors.phone ? <p className="mt-1 text-body-sm text-red-400">{errors.phone}</p> : null}
             </div>
 
-            <select
-              name="messenger"
-              aria-label="Удобный способ связи"
-              defaultValue=""
-              className="w-full rounded-2xl border border-border-subtle bg-bg-secondary px-5 py-4 text-body text-text-primary focus:border-accent focus:outline-none"
-            >
-              <option value="" disabled>
-                Удобный способ связи
-              </option>
-              {finalCta.form.messengers.map((m) => (
-                <option key={m} value={m}>
-                  {m}
-                </option>
-              ))}
-            </select>
+            <Select
+              options={finalCta.form.messengers}
+              value={messenger}
+              onChange={setMessenger}
+              placeholder="Удобный способ связи"
+              ariaLabel="Удобный способ связи"
+            />
 
             <textarea
               name="comment"
@@ -125,6 +124,31 @@ export function FinalCta() {
               rows={4}
               className="w-full resize-none rounded-2xl border border-border-subtle bg-bg-secondary px-5 py-4 text-body text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none"
             />
+
+            <div>
+              <label className="flex items-start gap-3 text-body-sm text-text-muted">
+                <input
+                  type="checkbox"
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                  aria-invalid={Boolean(errors.agreed)}
+                  className="mt-0.5 h-4 w-4 shrink-0 accent-accent"
+                />
+                <span>
+                  {consent.label}{" "}
+                  <a
+                    href={consent.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="underline hover:text-text-primary"
+                  >
+                    {consent.linkLabel}
+                  </a>
+                </span>
+              </label>
+              {errors.agreed ? <p className="mt-1 text-body-sm text-red-400">{errors.agreed}</p> : null}
+            </div>
 
             <button
               type="submit"
@@ -152,7 +176,7 @@ export function FinalCta() {
           <span className="text-body-sm uppercase tracking-tight text-text-secondary">Почему нам</span>
           <ul className="mt-5 flex flex-col gap-4">
             {hero.metrics.map((m) => (
-              <li key={m.label} className="flex items-baseline gap-3 border-b border-border-subtle pb-4 last:border-0 last:pb-0">
+              <li key={m.label} className="flex flex-col gap-1 border-b border-border-subtle pb-4 last:border-0 last:pb-0">
                 <span className="font-display text-lg uppercase text-accent">{m.value}</span>
                 <span className="text-body-sm text-text-muted">{m.label}</span>
               </li>

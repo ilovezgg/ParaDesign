@@ -7,6 +7,7 @@ export {
   Phone as IconPhone,
   Mail as IconMail,
   FileText as IconDoc,
+  ChevronDown as IconChevronDown,
 } from "lucide-react";
 
 export {

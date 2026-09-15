@@ -6,7 +6,7 @@ import { IconClose } from "@/components/ui/icons";
 import { SERVICE_MODAL_EVENT } from "@/lib/serviceModal";
 import { submitContactForm } from "@/lib/formAction";
 import { formatPhone } from "@/lib/formatPhone";
-import { services } from "@/content";
+import { services, consent } from "@/content";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -15,6 +15,8 @@ export function ServiceModal() {
   const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [file, setFile] = useState<File | null>(null);
+  const [agreed, setAgreed] = useState(false);
 
   useEffect(() => {
     const onOpen = (e: Event) => {
@@ -22,6 +24,8 @@ export function ServiceModal() {
       setActiveIndex(index);
       setStatus("idle");
       setErrors({});
+      setFile(null);
+      setAgreed(false);
     };
     window.addEventListener(SERVICE_MODAL_EVENT, onOpen);
     return () => window.removeEventListener(SERVICE_MODAL_EVENT, onOpen);
@@ -48,10 +52,12 @@ export function ServiceModal() {
     const form = new FormData(e.currentTarget);
     const name = String(form.get("name") || "").trim();
     const comment = String(form.get("comment") || "").trim();
+    const figmaLink = String(form.get("figmaLink") || "").trim();
 
     const nextErrors: Record<string, string> = {};
     if (name.length < 2) nextErrors.name = "Введите имя";
     if (phone.replace(/\D/g, "").length < 11) nextErrors.phone = "Введите корректный телефон";
+    if (!agreed) nextErrors.agreed = consent.error;
 
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
@@ -63,11 +69,15 @@ export function ServiceModal() {
         phone,
         messenger: "",
         comment: service ? `[${service.title}] ${comment}` : comment,
+        figmaLink: figmaLink || undefined,
+        file,
       });
       setStatus(result.ok ? "success" : "error");
       if (result.ok) {
         e.currentTarget.reset();
         setPhone("");
+        setFile(null);
+        setAgreed(false);
       }
     } catch {
       setStatus("error");
@@ -153,6 +163,53 @@ export function ServiceModal() {
                   rows={3}
                   className="w-full resize-none rounded-2xl border border-border-subtle bg-bg-primary px-5 py-4 text-body text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none"
                 />
+
+                {service.attachment ? (
+                  <div className="flex flex-col gap-3">
+                    <label className="flex w-full cursor-pointer flex-col gap-1 rounded-2xl border border-dashed border-border-subtle bg-bg-primary px-5 py-4 text-body-sm text-text-muted transition-colors duration-200 hover:border-accent">
+                      <span>{file ? file.name : "Прикрепить файл (Figma-экспорт, ТЗ, архив)"}</span>
+                      <input
+                        name="file"
+                        type="file"
+                        accept=".fig,.pdf,.zip,.rar,.7z,.png,.jpg,.jpeg,.doc,.docx"
+                        className="hidden"
+                        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                      />
+                    </label>
+                    <input
+                      name="figmaLink"
+                      type="url"
+                      placeholder="Или вставьте ссылку на Figma"
+                      aria-label="Ссылка на Figma"
+                      className="w-full rounded-2xl border border-border-subtle bg-bg-primary px-5 py-4 text-body text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none"
+                    />
+                  </div>
+                ) : null}
+
+                <div>
+                  <label className="flex items-start gap-3 text-body-sm text-text-muted">
+                    <input
+                      type="checkbox"
+                      checked={agreed}
+                      onChange={(e) => setAgreed(e.target.checked)}
+                      aria-invalid={Boolean(errors.agreed)}
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-accent"
+                    />
+                    <span>
+                      {consent.label}{" "}
+                      <a
+                        href={consent.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="underline hover:text-text-primary"
+                      >
+                        {consent.linkLabel}
+                      </a>
+                    </span>
+                  </label>
+                  {errors.agreed ? <p className="mt-1 text-body-sm text-red-400">{errors.agreed}</p> : null}
+                </div>
 
                 <button
                   type="submit"

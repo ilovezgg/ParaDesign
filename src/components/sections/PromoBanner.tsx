@@ -9,7 +9,7 @@ export function PromoBanner() {
       <Container>
         <Reveal className="flex flex-col items-start justify-between gap-8 rounded-3xl border border-border-subtle bg-bg-secondary px-8 py-10 md:flex-row md:items-center md:px-12 md:py-14">
           <div className="flex items-center gap-6">
-            <span className="flex items-baseline font-display text-5xl uppercase text-accent md:text-7xl">
+            <span className="flex items-baseline font-display text-3xl uppercase text-accent md:text-7xl">
               {promoBanner.percent.split("").map((char, i) =>
                 /\d/.test(char) ? (
                   <span key={i} className="inline-block origin-bottom scale-y-125">

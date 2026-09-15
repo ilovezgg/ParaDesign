@@ -170,6 +170,7 @@ export type Service = {
   duration: string;
   cta: string;
   image: string;
+  attachment?: boolean;
 };
 
 export const services = {
@@ -234,6 +235,7 @@ export const services = {
       duration: "от 2 дней",
       cta: "Отправить файл",
       image: "/img/service-layout.png",
+      attachment: true,
     },
   ] satisfies Service[],
 };
@@ -347,6 +349,13 @@ export const footer = {
   copyright: `© ${new Date().getFullYear()} ${siteConfig.name}. Все права защищены.`,
   privacyLabel: "Политика конфиденциальности",
   privacyHref: "/privacy",
+};
+
+export const consent = {
+  label: "Согласен(а) с",
+  linkLabel: "политикой конфиденциальности",
+  href: "/privacy",
+  error: "Нужно согласие на обработку данных",
 };
 
 export const seo = {
