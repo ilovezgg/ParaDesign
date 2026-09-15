@@ -2,6 +2,7 @@ import Image from "next/image";
 import { cases } from "@/content";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { Button } from "@/components/ui/Button";
 
 export function Cases() {
   return (
@@ -12,7 +13,7 @@ export function Cases() {
           return (
             <div
               key={item.title}
-              className={`flex flex-col gap-8 xl:flex-row xl:items-stretch xl:gap-16 ${
+              className={`flex flex-col gap-8 xl:flex-row xl:items-center xl:gap-16 ${
                 reversed ? "xl:flex-row-reverse" : ""
               }`}
             >
@@ -38,15 +39,10 @@ export function Cases() {
                   )}
                   <p className="mt-4 text-body text-text-secondary">{item.text}</p>
                 </div>
-                {item.link ? (
-                  <a
-                    href={item.linkHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-6 inline-block border-b border-border-strong text-body-sm text-text-primary transition-colors duration-200 hover:border-accent hover:text-accent"
-                  >
+                {item.linkHref && item.link ? (
+                  <Button href={item.linkHref} variant="outline" className="mt-6 self-start">
                     {item.link}
-                  </a>
+                  </Button>
                 ) : null}
               </Reveal>
 
@@ -56,8 +52,9 @@ export function Cases() {
                     href={item.linkHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    // +20px компенсирует визуальную обрезку object-cover на реальных фото кейсов
-                    className="relative block aspect-[4/3] w-[calc(100%+20px)] -mx-[10px] overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary xl:aspect-auto xl:h-full"
+                    // aspect-[8/5] соответствует реальному разрешению скринов кейсов (1440x900,
+                    // 1600x1000) — object-cover ничего не обрезает по бокам ни на одном брейкпоинте
+                    className="relative block aspect-[8/5] w-full overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary"
                   >
                     <Image
                       src={item.image}
@@ -69,7 +66,7 @@ export function Cases() {
                     />
                   </a>
                 ) : (
-                  <div className="relative aspect-[4/3] w-[calc(100%+20px)] -mx-[10px] overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary xl:aspect-auto xl:h-full">
+                  <div className="relative aspect-[8/5] w-full overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary">
                     <Image
                       src={item.image}
                       alt={item.title}
