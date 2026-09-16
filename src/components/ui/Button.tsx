@@ -1,7 +1,4 @@
-"use client";
-
-import { AnchorHTMLAttributes, MouseEvent, ReactNode, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { AnchorHTMLAttributes, ReactNode } from "react";
 import { IconArrow } from "@/components/ui/icons";
 
 type ButtonProps = {
@@ -12,22 +9,8 @@ type ButtonProps = {
 } & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "className">;
 
 export function Button({ href, children, variant = "outline", className = "", ...rest }: ButtonProps) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: MouseEvent<HTMLAnchorElement>) => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const x = (e.clientX - rect.left - rect.width / 2) * 0.25;
-    const y = (e.clientY - rect.top - rect.height / 2) * 0.25;
-    setOffset({ x, y });
-  };
-
-  const handleMouseLeave = () => setOffset({ x: 0, y: 0 });
-
   const base =
-    "group relative inline-flex items-center gap-3 rounded-full border px-6 py-3 text-body-sm font-semibold uppercase tracking-tight transition-colors duration-300";
+    "group relative inline-flex items-center gap-3 rounded-full border px-6 py-3 text-body-sm font-semibold uppercase tracking-tight transition-colors duration-200 ease-out";
   const styles =
     variant === "solid"
       ? "border-accent bg-accent text-accent-ink hover:bg-transparent hover:text-accent"
@@ -36,31 +19,29 @@ export function Button({ href, children, variant = "outline", className = "", ..
   const isExternal = href.startsWith("http");
 
   return (
-    <motion.span
-      animate={{ x: offset.x, y: offset.y }}
-      transition={{ type: "spring", stiffness: 150, damping: 12, mass: 0.3 }}
-      className="inline-block"
+    <a
+      href={href}
+      className={`${base} ${styles} ${className}`}
+      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      {...rest}
     >
-      <a
-        ref={ref}
-        href={href}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        className={`${base} ${styles} ${className}`}
-        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-        {...rest}
+      <span className="break-words">{children}</span>
+      <span
+        className={`relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors duration-200 ease-out ${
+          variant === "solid" ? "border-accent-ink group-hover:border-accent" : "border-current"
+        }`}
       >
-        <span className="break-words">{children}</span>
         <span
-          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
-            variant === "solid"
-              ? "border-accent-ink group-hover:border-accent"
-              : "border-current"
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-0 rounded-full border opacity-0 group-hover:opacity-100 group-hover:[animation:button-ping_0.6s_cubic-bezier(0.4,0,0.2,1)] ${
+            variant === "solid" ? "border-accent" : "border-current"
           }`}
-        >
-          <IconArrow className="relative z-10 h-3.5 w-3.5" aria-hidden="true" />
-        </span>
-      </a>
-    </motion.span>
+        />
+        <IconArrow
+          className="relative z-10 h-3.5 w-3.5 transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          aria-hidden="true"
+        />
+      </span>
+    </a>
   );
 }

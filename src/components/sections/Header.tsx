@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { nav, siteConfig } from "@/content";
 import { Container } from "@/components/ui/Container";
 import { IconVk, IconTelegram, IconMenu, IconClose } from "@/components/ui/icons";
@@ -8,6 +9,9 @@ import { IconVk, IconTelegram, IconMenu, IconClose } from "@/components/ui/icons
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const homeHref = (hash: string) => (isHome ? hash : `/${hash}`);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -37,7 +41,7 @@ export function Header() {
             scrolled ? "py-3" : "py-6"
           }`}
         >
-          <a href="#top" className="font-display text-lg uppercase tracking-tight">
+          <a href={isHome ? "#top" : "/"} className="font-display text-lg uppercase tracking-tight">
             {siteConfig.name}
           </a>
 
@@ -45,7 +49,7 @@ export function Header() {
             {nav.map((item) => (
               <a
                 key={item.href}
-                href={item.href}
+                href={homeHref(item.href)}
                 className="text-body-sm text-text-secondary transition-colors duration-200 hover:text-text-primary"
               >
                 {item.label}
@@ -92,7 +96,7 @@ export function Header() {
             {nav.map((item) => (
               <a
                 key={item.href}
-                href={item.href}
+                href={homeHref(item.href)}
                 onClick={() => setMenuOpen(false)}
                 className="font-display text-2xl uppercase text-text-primary"
               >

@@ -6,6 +6,7 @@ import { IconClose } from "@/components/ui/icons";
 import { SERVICE_MODAL_EVENT } from "@/lib/serviceModal";
 import { submitContactForm } from "@/lib/formAction";
 import { formatPhone } from "@/lib/formatPhone";
+import { useFocusTrap } from "@/lib/useFocusTrap";
 import { services, consent } from "@/content";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -46,6 +47,8 @@ export function ServiceModal() {
       window.removeEventListener("keydown", onKey);
     };
   }, [open]);
+
+  const dialogRef = useFocusTrap<HTMLDivElement>(open);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -101,6 +104,7 @@ export function ServiceModal() {
           />
 
           <motion.div
+            ref={dialogRef}
             initial={{ opacity: 0, y: 24, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.98 }}
@@ -108,7 +112,8 @@ export function ServiceModal() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="service-modal-title"
-            className="relative grid w-full max-w-3xl grid-cols-1 overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary md:grid-cols-2"
+            tabIndex={-1}
+            className="relative grid w-full max-w-3xl grid-cols-1 overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary focus:outline-none md:grid-cols-2"
           >
             <button
               type="button"

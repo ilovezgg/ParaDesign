@@ -6,6 +6,7 @@ import { IconClose } from "@/components/ui/icons";
 import { CONSULTATION_MODAL_EVENT } from "@/lib/consultationModal";
 import { submitContactForm } from "@/lib/formAction";
 import { formatPhone } from "@/lib/formatPhone";
+import { useFocusTrap } from "@/lib/useFocusTrap";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -37,6 +38,8 @@ export function ConsultationModal() {
       window.removeEventListener("keydown", onKey);
     };
   }, [open]);
+
+  const dialogRef = useFocusTrap<HTMLDivElement>(open);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,6 +84,7 @@ export function ConsultationModal() {
           />
 
           <motion.div
+            ref={dialogRef}
             initial={{ opacity: 0, y: 24, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.98 }}
@@ -88,7 +92,8 @@ export function ConsultationModal() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="consultation-modal-title"
-            className="relative w-full max-w-md rounded-3xl border border-border-subtle bg-bg-secondary p-8"
+            tabIndex={-1}
+            className="relative w-full max-w-md rounded-3xl border border-border-subtle bg-bg-secondary p-8 focus:outline-none"
           >
             <button
               type="button"
