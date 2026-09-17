@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { nav, siteConfig } from "@/content";
 import { Container } from "@/components/ui/Container";
@@ -41,8 +42,8 @@ export function Header() {
             scrolled ? "py-3" : "py-6"
           }`}
         >
-          <a href={isHome ? "#top" : "/"} className="font-display text-lg uppercase tracking-tight">
-            {siteConfig.name}
+          <a href={isHome ? "#top" : "/"} aria-label={siteConfig.name}>
+            <Image src="/img/logo.webp" alt={siteConfig.name} width={40} height={40} priority />
           </a>
 
           <nav className="hidden items-center gap-8 md:flex">

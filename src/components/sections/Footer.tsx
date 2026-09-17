@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { footer, siteConfig } from "@/content";
 import { Container } from "@/components/ui/Container";
 import { IconVk, IconTelegram, IconMail, IconPhone } from "@/components/ui/icons";
@@ -8,6 +9,7 @@ export function Footer() {
       <Container>
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div>
+            <Image src="/img/logo.webp" alt={siteConfig.name} width={32} height={32} className="mb-3" />
             <p className="font-display text-lg uppercase text-text-primary">{siteConfig.name}</p>
             <p className="mt-2 max-w-xs text-body-sm text-text-secondary">{footer.tagline}</p>
           </div>
