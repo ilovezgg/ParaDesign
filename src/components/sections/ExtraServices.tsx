@@ -36,7 +36,7 @@ export function ExtraServices() {
             </h3>
             <p className="mt-2 break-words text-body-sm text-text-secondary">{auditOffer.text}</p>
             <ConsultationCtaButton variant="solid" topic="audit" className="mt-6 w-full justify-between md:mt-auto">
-              {auditOffer.cta}
+              {auditOffer.cardCta}
             </ConsultationCtaButton>
           </Reveal>
         </div>
