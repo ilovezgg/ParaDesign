@@ -3,7 +3,8 @@
 import { FormEvent, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IconClose } from "@/components/ui/icons";
-import { CONSULTATION_MODAL_EVENT } from "@/lib/consultationModal";
+import { consultationModal } from "@/content";
+import { CONSULTATION_MODAL_EVENT, ConsultationTopic } from "@/lib/consultationModal";
 import { submitContactForm } from "@/lib/formAction";
 import { formatPhone } from "@/lib/formatPhone";
 import { useFocusTrap } from "@/lib/useFocusTrap";
@@ -15,9 +16,12 @@ export function ConsultationModal() {
   const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [topic, setTopic] = useState<ConsultationTopic | undefined>(undefined);
+  const copy = topic ? consultationModal[topic] : consultationModal.default;
 
   useEffect(() => {
-    const onOpen = () => {
+    const onOpen = (e: Event) => {
+      setTopic((e as CustomEvent<{ topic?: ConsultationTopic }>).detail?.topic);
       setOpen(true);
       setStatus("idle");
       setErrors({});
@@ -56,7 +60,7 @@ export function ConsultationModal() {
 
     setStatus("loading");
     try {
-      const result = await submitContactForm({ name, phone, messenger: "", comment });
+      const result = await submitContactForm({ name, phone, messenger: "", comment, topic });
       setStatus(result.ok ? "success" : "error");
       if (result.ok) {
         e.currentTarget.reset();
@@ -105,11 +109,9 @@ export function ConsultationModal() {
             </button>
 
             <h3 id="consultation-modal-title" className="font-display text-h3 uppercase leading-tight text-text-primary">
-              Бесплатная консультация
+              {copy.title}
             </h3>
-            <p className="mt-2 text-body-sm text-text-secondary">
-              Оставьте контакты — расскажем, как получить сайт с заявками
-            </p>
+            <p className="mt-2 text-body-sm text-text-secondary">{copy.text}</p>
 
             <form onSubmit={handleSubmit} noValidate className="mt-6 flex flex-col gap-4">
               <div>
@@ -142,8 +144,8 @@ export function ConsultationModal() {
 
               <textarea
                 name="comment"
-                placeholder="Пожелание по сайту или пара слов о компании"
-                aria-label="Пожелание по сайту или пара слов о компании"
+                placeholder={copy.commentPlaceholder}
+                aria-label={copy.commentPlaceholder}
                 rows={3}
                 className="w-full resize-none rounded-2xl border border-border-subtle bg-bg-primary px-5 py-4 text-body text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none"
               />

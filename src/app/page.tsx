@@ -6,6 +6,7 @@ import { Process } from "@/components/sections/Process";
 import { Services } from "@/components/sections/Services";
 import { Quiz } from "@/components/sections/Quiz";
 import { Cases } from "@/components/sections/Cases";
+import { ExtraServices } from "@/components/sections/ExtraServices";
 import { Advantages } from "@/components/sections/Advantages";
 import { TechSubscription } from "@/components/sections/TechSubscription";
 import { FinalCta } from "@/components/sections/FinalCta";
@@ -23,6 +24,7 @@ export default function Home() {
         <Services />
         <Quiz />
         <Cases />
+        <ExtraServices />
         <Advantages />
         <TechSubscription />
         <FinalCta />

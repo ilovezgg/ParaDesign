@@ -3,6 +3,7 @@ export type ContactFormData = {
   phone: string;
   messenger: string;
   comment: string;
+  topic?: string;
   figmaLink?: string;
   file?: File | null;
 };
